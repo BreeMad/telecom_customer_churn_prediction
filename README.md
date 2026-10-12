@@ -2,7 +2,7 @@
 
 Predicting which customers may cancel their service to help a telecom company plan retention efforts.
 
-**Project type:** Classification | **Tools:** Python, Pandas, NumPy, scikit-learn, Matplotlib, Seaborn
+**Project type:** Classification | **Tools:** Python, Pandas, NumPy, scikit-learn, Matplotlib, Seaborn, Google Colab
 
 ## Main result
 
@@ -23,6 +23,12 @@ Precision shows how often a churn warning was correct. Recall shows how many cus
 ## Business question
 
 Which customers are most likely to leave, and where should the company focus its efforts to keep them?
+
+## Data Source
+
+This project uses the [Telecom Customer Churn dataset from Maven Analytics](https://mavenanalytics.io/data-playground/telecom-customer-churn). It describes a fictional telecom company serving 7,043 customers in California during Q2 2022. Maven Analytics credits IBM Cognos Analytics as the original source.
+
+The input used in this notebook is `telecom_customer_churn.csv`, with 7,043 rows and 38 columns.
 
 ## Data and workflow
 
@@ -59,21 +65,24 @@ Lowering the threshold to 0.45 found nine additional churners in the test set, b
 
 - [Full notebook](telecom_customer_churn_prediction.ipynb): code, explanations, charts, and saved results.
 - [Data instructions](DATA.md): required input and source information.
-- `requirements.txt`: Python packages needed to run the notebook.
+- `requirements.txt`: Python package requirements for reference or installation if needed.
 - `images/`: selected charts taken from the notebook's saved outputs.
 
-## How to run
+## How to run in Google Colab
 
-1. Obtain the original `telecom_customer_churn.csv` described in [DATA.md](DATA.md).
-2. Place it beside the notebook.
-3. Use Python 3.12 as a starting environment.
-4. From this project folder, run `python -m pip install -r requirements.txt`.
-5. Start Jupyter with `python -m jupyterlab`, open the notebook, and run the cells in order.
+1. Open [Google Colab](https://colab.research.google.com/) and upload `telecom_customer_churn_prediction.ipynb` using **File > Upload notebook**.
+2. Obtain the original `telecom_customer_churn.csv` described in [DATA.md](DATA.md).
+3. Upload the CSV through Colab's **Files** panel. Keep its filename unchanged and place it in the runtime's working folder, normally `/content`, because the notebook reads it using a relative filename.
+4. Run the notebook cells in order.
 
-You can also read the saved notebook results without downloading the data or training the models.
+Colab provides the notebook environment, so you do not need to install or start Jupyter on your computer. If a required package is missing or incompatible, upload `requirements.txt` to the runtime's working folder and run `%pip install -r requirements.txt` in a new code cell before the analysis. Restart the runtime if prompted after package changes, then rerun the notebook from the start. The requirements are not a fully verified environment lock.
+
+Uploaded CSVs belong to the temporary runtime. You may need to upload them again when starting a new session.
+
+You can also read the saved notebook results on GitHub without downloading the data or running the models.
 
 ## Limits and next steps
 
 This is a portfolio analysis of a historical dataset. It does not show that any individual feature causes churn, or that outreach would prevent it. Models and the final threshold were compared using test-set results; a future evaluation should reserve a fresh holdout dataset after those choices are fixed. Prediction inputs should also be checked for availability before the cancellation date.
 
-The repository preserves the supplied notebook and its saved results. Full execution was not repeated while preparing this repository because the original CSV was not supplied. Package versions are starting requirements rather than a fully verified environment lock.
+The repository preserves the supplied analysis and saved results. A data-source section was added to the notebook during portfolio preparation. Full execution was not repeated while preparing this repository because the original CSV was not supplied. Package versions are starting requirements rather than a fully verified environment lock.
