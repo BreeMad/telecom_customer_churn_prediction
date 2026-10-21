@@ -1,12 +1,14 @@
 # Telecom Customer Churn Prediction
 
-Predicting which customers may cancel their service to help a telecom company plan retention efforts.
+I built and compared models to predict which customers might cancel their telecom service, which is also known as **churn**. The goal was to help the company come up with ways to keep its customers.
 
-**Project type:** Classification | **Tools:** Python, Pandas, NumPy, scikit-learn, Matplotlib, Seaborn, Google Colab
+**Project Type:** Classification, which means predicting a category. In this case, it refers to whether a customer stays or leaves.
 
-## Main result
+**Tools:** Python, Pandas, NumPy, scikit-learn, Matplotlib, Seaborn, Google Colab
 
-Gradient Boosting was selected as the final model. At the default 0.50 classification threshold, the notebook reports these test results:
+## Main Result
+
+I chose Gradient Boosting as the final model. The default cutoff of **0.50** was used to flag customers who might leave, which gave the following test results:
 
 | Metric | Result |
 | --- | ---: |
@@ -16,33 +18,34 @@ Gradient Boosting was selected as the final model. At the default 0.50 classific
 | F1-score | 0.785 |
 | ROC-AUC | 0.942 |
 
-Precision shows how often a churn warning was correct. Recall shows how many customers who actually left were found. The model identified 269 of the 374 customers who churned in the test set.
+**Precision** shows how often the model was correct when it flagged a customer as being likely to leave. **Recall** shows the percentage of customers who actually left that the model was able to identify correctly. The model was able to identify **269 out of the 374 customers who left** in the test data.
 
 ![Model ROC curves](images/roc_curves.png)
 
-## Business question
+## Business Question
 
-Which customers are most likely to leave, and where should the company focus its efforts to keep them?
+Which customers are most likely to leave, and what could the company do to encourage them to stay?
 
 ## Data Source
 
-This project uses the [Telecom Customer Churn dataset from Maven Analytics](https://mavenanalytics.io/data-playground/telecom-customer-churn). It describes a fictional telecom company serving 7,043 customers in California during Q2 2022. Maven Analytics credits IBM Cognos Analytics as the original source.
+This project uses the [Telecom Customer Churn Dataset From Maven Analytics](https://mavenanalytics.io/data-playground/telecom-customer-churn). It contains customer information for a fictional telecom in California during the second quarter of 2022. Maven Analytics lists IBM Cognos Analytics as the original source.
 
-The input used in this notebook is `telecom_customer_churn.csv`, with 7,043 rows and 38 columns.
+The file used in this project is `telecom_customer_churn.csv`, which contains **7,043 customer records and 38 columns**.
 
-## Data and workflow
+## Workflow
 
-- Started with 7,043 customers and 38 columns reflecting account status at the end of Q2 2022.
-- Excluded recently joined customers, leaving 6,589 customers with stayed-or-churned outcomes.
-- Investigated missing values and filled service-related values based on whether customers had that service.
-- Removed customer IDs, location columns, and columns that directly reveal churn outcomes before modeling.
-- Converted categories into model inputs and used an 80/20 stratified train-test split with `random_state=2026`.
+- Removed recently joined customers, which resulted in 6,589 customers who had either stayed or churned.
+- Checked missing values and filled service-related gaps based on whether each customer had that service.
+- Removed customer IDs, location columns, and information that already revealed whether a customer had left.
+- Converted categories into numbers the models could use.
+- Used 80% of the data to train the models and 20% to test them. Both groups had a similar share of customers who stayed and left. Used `random_state=2026` so the split could be repeated.
 - Compared KNN, Logistic Regression, Decision Tree, Random Forest, and Gradient Boosting.
-- Used five-fold cross-validation for tuning and explored the tradeoff between precision and recall.
+- Used five-fold cross-validation to compare model settings by training and checking each model five times, using a different group of data for validation each time.
+- Explored how changing the cutoff affected the number of customers correctly identified as churning and the number incorrectly flagged.
 
-## Model comparison
+## Model Comparison
 
-These are the saved test results for the versions selected in the notebook's final comparison.
+The table below shows the test results for the model versions included in the final comparison.
 
 | Model | Accuracy | Precision | Recall | F1-score | ROC-AUC |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -52,37 +55,49 @@ These are the saved test results for the versions selected in the notebook's fin
 | Random Forest | 0.885 | 0.861 | 0.711 | 0.779 | 0.938 |
 | Gradient Boosting | 0.888 | 0.865 | 0.719 | 0.785 | 0.942 |
 
-## Key findings
+## Key Findings
 
-- Newer customers and customers with month-to-month contracts had higher churn rates.
+- Customers who had been with the company for less time were more likely to leave.
+- Customers with month-to-month contracts had higher churn rates.
 - Customers without Online Security or Premium Tech Support also had higher churn rates.
-- Competitor-related reasons accounted for about 45% of reported churn.
-- These patterns suggest areas for retention outreach, service improvements, and review of competitor offers.
+- About 45% of reported churn involved competitor-related reasons.
 
-Lowering the threshold to 0.45 found nine additional churners in the test set, but reduced precision to 82.5%. The notebook kept 0.50 as its final threshold.
+These findings suggest that the company could pay more attention to keeping newer customers, look for ways to improve its services, and see how its offers compare with competitors’ offers.
+
+Lowering the cutoff from **0.50 to 0.45** helped the model find nine more customers who had left in the test data. However, it also mistakenly labeled more customers who stayed as being likely to leave. This lowered precision to **82.5%**. I kept **0.50** as the final cutoff.
 
 ## Files
 
-- [Full notebook](telecom_customer_churn_prediction.ipynb): code, explanations, charts, and saved results.
-- [Data instructions](DATA.md): required input and source information.
-- `requirements.txt`: Python package requirements for reference or installation if needed.
-- `images/`: selected charts taken from the notebook's saved outputs.
+- [Full Notebook](telecom_customer_churn_prediction.ipynb): The project’s code, explanations, charts, and saved results.
+- [Data Instructions](DATA.md): Where the data came from and which data file to download.
+- `requirements.txt`: A list of Python packages and suggested version ranges for running the project.
+- `images/`: Charts saved from the notebook.
 
-## How to run in Google Colab
+## How to Run in Google Colab
 
-1. Open [Google Colab](https://colab.research.google.com/) and upload `telecom_customer_churn_prediction.ipynb` using **File > Upload notebook**.
-2. Obtain the original `telecom_customer_churn.csv` described in [DATA.md](DATA.md).
-3. Upload the CSV through Colab's **Files** panel. Keep its filename unchanged and place it in the runtime's working folder, normally `/content`, because the notebook reads it using a relative filename.
-4. Run the notebook cells in order.
+1. Open [Google Colab](https://colab.research.google.com/). Choose **File > Upload notebook** and select `telecom_customer_churn_prediction.ipynb`.
+2. Download `telecom_customer_churn.csv` by following the instructions in [DATA.md](DATA.md).
+3. In Colab’s **Files** panel, upload the CSV to the `/content` folder. Keep the filename the same so the notebook can find it.
+4. Run the notebook cells from top to bottom.
 
-Colab provides the notebook environment, so you do not need to install or start Jupyter on your computer. If a required package is missing or incompatible, upload `requirements.txt` to the runtime's working folder and run `%pip install -r requirements.txt` in a new code cell before the analysis. Restart the runtime if prompted after package changes, then rerun the notebook from the start. The requirements are not a fully verified environment lock.
+Colab runs the notebook in your browser, so you do not need to install or open Jupyter on your computer.
 
-Uploaded CSVs belong to the temporary runtime. You may need to upload them again when starting a new session.
+If a Python package is missing or does not work with the notebook, upload `requirements.txt` to Colab’s `/content` folder. Add a new code cell at the top of the notebook and run:
 
-You can also read the saved notebook results on GitHub without downloading the data or running the models.
+```python
+%pip install -r requirements.txt
+```
 
-## Limits and next steps
+If Colab asks you to restart, do so, then run the notebook cells again from top to bottom. The suggested package versions still need to be checked together to confirm that the setup works.
 
-This is a portfolio analysis of a historical dataset. It does not show that any individual feature causes churn, or that outreach would prevent it. Models and the final threshold were compared using test-set results; a future evaluation should reserve a fresh holdout dataset after those choices are fixed. Prediction inputs should also be checked for availability before the cancellation date.
+**Files uploaded to Colab are temporary**. You may need to upload your CSV again when you start a new session.
 
-The repository preserves the supplied analysis and saved results. A data-source section was added to the notebook during portfolio preparation. Full execution was not repeated while preparing this repository because the original CSV was not supplied. Package versions are starting requirements rather than a fully verified environment lock.
+You can also view the saved results on GitHub without downloading the data or running the notebook.
+
+## Limits and Next Steps
+
+This project uses historical data from a fictional company. The patterns found do not prove what causes customers to leave or whether contacting them would prevent cancellations.
+
+I used the test results to help choose the final model and cutoff. This means the results may make the model look better than it would on new data. In the future, I would use the training data and cross-validation to make these choices, then test the chosen model on data that had not been used before.
+
+Before using the model to predict which customers might leave, I would also check that the information needed to make those predictions would be available before they cancel.
